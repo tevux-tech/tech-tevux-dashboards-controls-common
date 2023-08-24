@@ -1,19 +1,57 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>0.1.0</Version>
+    <Company>Tevux Technologies</Company>
+    <Copyright>© 2023 Tevux Technologies</Copyright>
+    <AssemblyTitle>Common classes to use in Dashboards control creation.</AssemblyTitle>
+    <Authors>devbotas</Authors>
+    <Description>Provides most common controls, like Label.</Description>
+    <RepositoryUrl>https://github.com/tevux-tech/tech-tevux-dashboards-controls</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/tevux-tech/tech-tevux-dashboards-controls</PackageProjectUrl>
 
-	<ItemGroup>
-		<PackageReference Include="Tevux.Dashboards.Abstractions" Version="0.73.0-preview.32">
-			<ExcludeAssets>runtime</ExcludeAssets>
-		</PackageReference>
-		<PackageReference Include="Tevux.Tools.RepositorySettings" Version="1.7.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-	</ItemGroup>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+
+    <!--Configuring source Link-->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugType>embedded</DebugType>
+    <!--End-->
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <!--This enables "deterministic builds"-->
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Tevux.Dashboards.Abstractions" Version="0.73.0-preview.32">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="Tevux.Tools.RepositorySettings" Version="1.7.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!--Tevux related settings-->
+  <PropertyGroup>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <RootNamespace>Tech.Tevux.Dashboards.Controls</RootNamespace>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>tevux-logo-symbol.png</PackageIcon>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="True" PackagePath="\" />
+    <None Include="Resources\tevux-logo-symbol.png" Pack="True" PackagePath="\" />
+  </ItemGroup>
 
 </Project>

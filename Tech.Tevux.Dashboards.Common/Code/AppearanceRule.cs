@@ -10,8 +10,14 @@ public class AppearanceRule : IAppearanceRule {
     private decimal? _decimalValue;
     private string _stringValue = "0";
 
+    /// <summary>
+    /// Creates a default instance.
+    /// </summary>
     public AppearanceRule() : this(AppearanceRuleCondition.Undefined, "0") { }
 
+    /// <summary>
+    /// Creates a rule with specific parameters.
+    /// </summary>
     public AppearanceRule(AppearanceRuleCondition condition, string value, AppearanceRuleType type = AppearanceRuleType.Warning, string textFormat = "") {
         Condition = condition;
         Value = value;

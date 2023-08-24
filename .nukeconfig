@@ -1,0 +1,12 @@
+{
+    "NugetFeeds":{
+        "TevuxTech":{
+            "Url":"https://nuget.pkg.github.com/tevux-tech/index.json",
+            "ApiKeyName":"GithubTevuxPackages"
+        },
+        "NugetOrg":{
+            "Url":"https://api.nuget.org/v3/index.json",
+            "ApiKeyName":"NUGET_API_KEY"
+        }
+    }
+}
