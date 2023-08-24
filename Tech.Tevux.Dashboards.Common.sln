@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tech.Tevux.Dashboards.Common", "Tech.Tevux.Dashboards.Common\Tech.Tevux.Dashboards.Common.csproj", "{54267AA4-4B23-4265-A727-C4D855FF4284}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54267AA4-4B23-4265-A727-C4D855FF4284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54267AA4-4B23-4265-A727-C4D855FF4284}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54267AA4-4B23-4265-A727-C4D855FF4284}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54267AA4-4B23-4265-A727-C4D855FF4284}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD8F3D38-8C29-454E-A34D-218A8CD43D43}
+	EndGlobalSection
+EndGlobal
