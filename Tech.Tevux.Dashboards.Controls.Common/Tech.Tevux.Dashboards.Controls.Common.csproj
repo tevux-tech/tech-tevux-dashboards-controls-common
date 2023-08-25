@@ -4,14 +4,13 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Company>Tevux Technologies</Company>
     <Copyright>© 2023 Tevux Technologies</Copyright>
-    <AssemblyTitle>Common classes to use in Dashboards control creation.</AssemblyTitle>
     <Authors>devbotas</Authors>
-    <Description>Provides most common controls, like Label.</Description>
-    <RepositoryUrl>https://github.com/tevux-tech/tech-tevux-dashboards-controls</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/tevux-tech/tech-tevux-dashboards-controls</PackageProjectUrl>
+    <Description>Common classes to use in Dashboards control creation and viewing.</Description>
+    <RepositoryUrl>https://github.com/tevux-tech/tech-tevux-dashboards-controls-common</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/tevux-tech/tech-tevux-dashboards-controls-common</PackageProjectUrl>
 
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
 
