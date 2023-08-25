@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<metadata>
+		<id>$id$</id>
+		<version>$version$</version>
+		<title>$title$</title>
+		<authors>$authors$</authors>
+		<copyright>$copyright$</copyright>
+		<description>$description$</description>
+		<license type="expression">MIT</license>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<repository type="git" url="$repository$" />
+		<projectUrl>$projectUrl$</projectUrl>
+		<icon>images\tevux-logo-symbol.png</icon>
+		<readme>README.md</readme>
+		<tags>tevux.tech</tags>
+		<dependencies>
+			<group targetFramework="net6.0" >
+				<dependency id="Tevux.Dashboards.Abstractions" version="0.73.0-preview.32" exclude="Runtime,Build,Analyzers" />
+			</group>
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="Resources\tevux-logo-symbol.png" target="images\" />
+		<file src="..\README.md" target="\" />
+		<file src="bin\Publish\$id$.*" target="lib/net6.0" exclude="**.deps.json;**.runtimeconfig.json" />
+	</files>
+</package>
