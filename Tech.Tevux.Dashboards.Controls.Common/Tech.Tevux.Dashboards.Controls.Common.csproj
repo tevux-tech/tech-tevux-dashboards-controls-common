@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.2.0-preview.0</Version>
+    <Version>0.2.0-preview.2</Version>
     <Company>Tevux Technologies</Company>
     <Copyright>© 2023 Tevux Technologies</Copyright>
     <Authors>devbotas</Authors>
