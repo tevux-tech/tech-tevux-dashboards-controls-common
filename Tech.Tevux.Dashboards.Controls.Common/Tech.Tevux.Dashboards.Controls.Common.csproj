@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.2.0</Version>
+    <Version>0.2.0-preview.4</Version>
     <Company>Tevux Technologies</Company>
-    <Copyright>© 2023 Tevux Technologies</Copyright>
+    <Copyright>© 2023-2024 Tevux Technologies</Copyright>
     <Authors>devbotas</Authors>
     <Description>Common classes to use in Dashboards control creation and viewing.</Description>
     <RepositoryUrl>https://github.com/tevux-tech/tech-tevux-dashboards-controls-common</RepositoryUrl>
@@ -20,6 +20,7 @@
     <DebugType>embedded</DebugType>
     <!--End-->
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <LangVersion>12</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
@@ -28,11 +29,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="Tevux.Dashboards.Abstractions" Version="0.73.0-preview.32">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Tevux.Dashboards.Abstractions" Version="1.0.0">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="Tevux.Tools.RepositorySettings" Version="1.7.0">
+    <PackageReference Include="Tevux.Tools.RepositorySettings" Version="1.8.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

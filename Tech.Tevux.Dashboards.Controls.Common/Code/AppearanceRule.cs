@@ -26,13 +26,13 @@ public class AppearanceRule : IAppearanceRule {
     }
 
     /// <inheritdoc/>
-    public AppearanceRuleCondition Condition { get; set; } = AppearanceRuleCondition.Equal;
+    public AppearanceRuleCondition Condition { get; set; }
 
     /// <inheritdoc/>
-    public IAppearanceRuleStyle Style { get; set; } = AppearanceRuleStyle.Normal;
+    public IAppearanceRuleStyle Style { get; set; }
 
     /// <inheritdoc/>
-    public string TextFormat { get; set; } = "";
+    public string TextFormat { get; set; }
 
     /// <inheritdoc/>
     public string Value {
@@ -51,6 +51,8 @@ public class AppearanceRule : IAppearanceRule {
     /// Tries parsing a rule from a string.
     /// </summary>
     public static bool TryParse(string rawString, out AppearanceRule rule) {
+        if (rawString is null) { goto error;}
+        
         var ruleParts = rawString.Split('|');
 
         if (ruleParts.Length < 3) { goto error; }
@@ -128,42 +130,42 @@ public class AppearanceRule : IAppearanceRule {
     private static bool TryParseCondition(string rawString, out AppearanceRuleCondition condition) {
         var returnValue = true;
 
-        switch (rawString.Trim().ToLowerInvariant()) {
-            case "equal":
+        switch (rawString.Trim().ToUpperInvariant()) {
+            case "EQUAL":
             case "==":
                 condition = AppearanceRuleCondition.Equal;
                 break;
 
-            case "notequal":
+            case "NOTEQUAL":
             case "!=":
                 condition = AppearanceRuleCondition.NotEqual;
                 break;
 
-            case "lessthan":
+            case "LESSTHAN":
             case "<":
                 condition = AppearanceRuleCondition.LessThan;
                 break;
 
-            case "morethan":
+            case "MORETHAN":
             case ">":
                 condition = AppearanceRuleCondition.MoreThan;
                 break;
 
-            case "lessthanorequal":
+            case "LESSTHANOREQUAL":
             case "<=":
                 condition = AppearanceRuleCondition.LessThanOrEqual;
                 break;
 
-            case "morethanorequal":
+            case "MORETHANOREQUAL":
             case ">=":
                 condition = AppearanceRuleCondition.MoreThanOrEqual;
                 break;
 
-            case "bitset":
+            case "BITSET":
                 condition = AppearanceRuleCondition.BitSet;
                 break;
 
-            case "bitnotset":
+            case "BITNOTSET":
                 condition = AppearanceRuleCondition.BitNotSet;
                 break;
 
@@ -179,30 +181,30 @@ public class AppearanceRule : IAppearanceRule {
     private static bool TryParseType(string rawString, out AppearanceRuleType style) {
         var returnValue = true;
 
-        switch (rawString.Trim().ToLowerInvariant()) {
-            case "normal":
-            case "norm":
-            case "n":
+        switch (rawString.Trim().ToUpperInvariant()) {
+            case "NORMAL":
+            case "NORM":
+            case "N":
                 style = AppearanceRuleType.Normal;
                 break;
 
-            case "passive":
-            case "pass":
+            case "PASSIVE":
+            case "PASS":
                 style = AppearanceRuleType.Passive;
                 break;
 
-            case "selected":
-            case "sel":
+            case "SELECTED":
+            case "SEL":
                 style = AppearanceRuleType.Selected;
                 break;
 
-            case "warning":
-            case "warn":
+            case "WARNING":
+            case "WARN":
                 style = AppearanceRuleType.Warning;
                 break;
 
-            case "error":
-            case "err":
+            case "ERROR":
+            case "ERR":
                 style = AppearanceRuleType.Error;
                 break;
 
