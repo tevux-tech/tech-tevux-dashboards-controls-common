@@ -203,6 +203,40 @@ public class AppearanceRule : IAppearanceRule {
         return returnValue;
     }
 
+    private static bool TryParseDecimal(string value, out decimal? parsedValue) {
+        // decimal.TryParse does not support hex numbers, so I am using integer.TryParse for that case.
+        // Also, both methods do not support prefixes or suffixes, so I am stripping them before parsing happens.
+
+        var isHex = false;
+        if (value.StartsWith("0x", StringComparison.OrdinalIgnoreCase)) {
+            isHex = true;
+            value = value[2..];
+        } else if (value.EndsWith("h", StringComparison.OrdinalIgnoreCase)) {
+            isHex = true;
+            value = value[..^1];
+        }
+
+        if (isHex) {
+            if (int.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var valueCandidate)) {
+                parsedValue = valueCandidate;
+            } else {
+                goto error;
+            }
+        } else {
+            if (decimal.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out var valueCandidate)) {
+                parsedValue = valueCandidate;
+            } else {
+                goto error;
+            }
+        }
+
+        return true;
+
+        error:
+        parsedValue = null;
+        return false;
+    }
+
     private static bool TryParseType(string rawString, out AppearanceRuleType style) {
         var returnValue = true;
 
@@ -259,9 +293,12 @@ public class AppearanceRule : IAppearanceRule {
             return _stringValue;
         }
         set {
-            if (decimal.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out var number)) {
-                _stringValue = value;
-                _decimalValue = number;
+            if (value is null) { return;}
+            
+            _stringValue = value;
+
+            if (TryParseDecimal(value, out var parsedValue)) {
+                _decimalValue = parsedValue;
             }
         }
     }
