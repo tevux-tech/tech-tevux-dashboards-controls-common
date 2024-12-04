@@ -21,39 +21,26 @@ public class AppearanceRuleStyle : IAppearanceRuleStyle {
     /// A predefined style for error condition.
     /// </summary>
     public static AppearanceRuleStyle Error { get; }
-    
+
     /// <summary>
     /// A predefined style for normal operation. 
     /// </summary>
     public static AppearanceRuleStyle Normal { get; }
-    
+
     /// <summary>
     /// A predefined style for a condition which is not clear (disabled, missing, etc.).
     /// </summary>
     public static AppearanceRuleStyle Passive { get; }
-    
+
     /// <summary>
     /// A predefined style for an elevated (slightly more important than normal) controls.
     /// </summary>
     public static AppearanceRuleStyle Selected { get; }
-    
+
     /// <summary>
     /// A predefined style for warning condition.
     /// </summary>
     public static AppearanceRuleStyle Warning { get; }
-
-    /// <summary>
-    /// Background color value.
-    /// </summary>
-    public uint Background { get; private set; } = 0x00FFFFFF;
-    
-    /// <summary>
-    /// Foreground color value.
-    /// </summary>
-    public uint Foreground { get; private set; } = 0x00FFFFFF;
-
-    /// <inheritdoc/>
-    public string Name { get; set; } = "Undefined";
 
     /// <summary>
     /// Maps predefined rule types to rule styles.
@@ -79,11 +66,28 @@ public class AppearanceRuleStyle : IAppearanceRuleStyle {
                 return Normal;
         }
     }
-    
+
     /// <summary>
     /// Gets all possible rule styles.
     /// </summary>
     public static ReadOnlyCollection<IAppearanceRuleStyle> GetAllStyles() {
-        return new ReadOnlyCollection<IAppearanceRuleStyle>(new List<IAppearanceRuleStyle> { Normal, Passive, Selected, Warning, Error }) ;
+        return new ReadOnlyCollection<IAppearanceRuleStyle>(new List<IAppearanceRuleStyle> { Normal, Passive, Selected, Warning, Error });
     }
+
+    #region IAppearanceRuleStyle Members
+
+    /// <summary>
+    /// Background color value.
+    /// </summary>
+    public uint Background { get; private set; } = 0x00FFFFFF;
+
+    /// <summary>
+    /// Foreground color value.
+    /// </summary>
+    public uint Foreground { get; private set; } = 0x00FFFFFF;
+
+    /// <inheritdoc/>
+    public string Name { get; set; } = "Undefined";
+
+    #endregion
 }

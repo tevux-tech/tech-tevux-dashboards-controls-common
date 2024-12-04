@@ -25,55 +25,6 @@ public class AppearanceRule : IAppearanceRule {
         Style = AppearanceRuleStyle.FromType(type);
     }
 
-    /// <inheritdoc/>
-    public AppearanceRuleCondition Condition { get; set; }
-
-    /// <inheritdoc/>
-    public IAppearanceRuleStyle Style { get; set; }
-
-    /// <inheritdoc/>
-    public string TextFormat { get; set; }
-
-    /// <inheritdoc/>
-    public string Value {
-        get {
-            return _stringValue;
-        }
-        set {
-            if (decimal.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out var number)) {
-                _stringValue = value;
-                _decimalValue = number;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Tries parsing a rule from a string.
-    /// </summary>
-    public static bool TryParse(string rawString, out AppearanceRule rule) {
-        if (rawString is null) { goto error;}
-        
-        var ruleParts = rawString.Split('|');
-
-        if (ruleParts.Length < 3) { goto error; }
-
-        if (TryParseCondition(ruleParts[0], out var condition) == false) { goto error; }
-        if (TryParseType(ruleParts[2], out var type) == false) { goto error; }
-
-        var format = "";
-        if (ruleParts.Length > 3) {
-            format = ruleParts[3];
-        }
-
-        rule = new AppearanceRule(condition, ruleParts[1], type, format);
-
-        return true;
-
-    error:
-        rule = new AppearanceRule();
-        return false;
-    }
-
     /// <summary>
     /// Checks if a value matches any conditions in the rule list.
     /// </summary>
@@ -96,6 +47,80 @@ public class AppearanceRule : IAppearanceRule {
 
         return returnString;
     }
+
+    /// <summary>
+    /// Tries parsing a rule from a string.
+    /// </summary>
+    public static bool TryParse(string rawString, out AppearanceRule rule) {
+        if (rawString is null) { goto error; }
+
+        var ruleParts = rawString.Split('|');
+
+        if (ruleParts.Length < 3) { goto error; }
+
+        if (TryParseCondition(ruleParts[0], out var condition) == false) { goto error; }
+        if (TryParseType(ruleParts[2], out var type) == false) { goto error; }
+
+        var format = "";
+        if (ruleParts.Length > 3) {
+            format = ruleParts[3];
+        }
+
+        rule = new AppearanceRule(condition, ruleParts[1], type, format);
+
+        return true;
+
+        error:
+        rule = new AppearanceRule();
+        return false;
+    }
+
+    private bool Matches(string x, string y) {
+        switch (Condition) {
+            case AppearanceRuleCondition.Equal:
+                return x == y;
+
+            case AppearanceRuleCondition.NotEqual:
+                return x != y;
+
+            default:
+                return false;
+        }
+    }
+
+    private bool Matches(decimal x, decimal? y) {
+        if (y.HasValue == false) { return false; }
+
+        switch (Condition) {
+            case AppearanceRuleCondition.Equal:
+                return x == y;
+
+            case AppearanceRuleCondition.NotEqual:
+                return x != y;
+
+            case AppearanceRuleCondition.LessThan:
+                return x < y;
+
+            case AppearanceRuleCondition.LessThanOrEqual:
+                return x <= y;
+
+            case AppearanceRuleCondition.MoreThan:
+                return x > y;
+
+            case AppearanceRuleCondition.MoreThanOrEqual:
+                return x >= y;
+
+            case AppearanceRuleCondition.BitSet:
+                return ((((int)(x) >> (int)(y)) & 1) == 1);
+
+            case AppearanceRuleCondition.BitNotSet:
+                return ((((int)(x) >> (int)(y)) & 1) == 0);
+
+            default:
+                return false;
+        }
+    }
+
     private static string ShortenCondition(AppearanceRuleCondition condition) {
         switch (condition) {
             case AppearanceRuleCondition.Equal:
@@ -178,6 +203,40 @@ public class AppearanceRule : IAppearanceRule {
         return returnValue;
     }
 
+    private static bool TryParseDecimal(string value, out decimal? parsedValue) {
+        // decimal.TryParse does not support hex numbers, so I am using integer.TryParse for that case.
+        // Also, both methods do not support prefixes or suffixes, so I am stripping them before parsing happens.
+
+        var isHex = false;
+        if (value.StartsWith("0x", StringComparison.OrdinalIgnoreCase)) {
+            isHex = true;
+            value = value[2..];
+        } else if (value.EndsWith("h", StringComparison.OrdinalIgnoreCase)) {
+            isHex = true;
+            value = value[..^1];
+        }
+
+        if (isHex) {
+            if (int.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var valueCandidate)) {
+                parsedValue = valueCandidate;
+            } else {
+                goto error;
+            }
+        } else {
+            if (decimal.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out var valueCandidate)) {
+                parsedValue = valueCandidate;
+            } else {
+                goto error;
+            }
+        }
+
+        return true;
+
+        error:
+        parsedValue = null;
+        return false;
+    }
+
     private static bool TryParseType(string rawString, out AppearanceRuleType style) {
         var returnValue = true;
 
@@ -216,49 +275,33 @@ public class AppearanceRule : IAppearanceRule {
 
         return returnValue;
     }
-    private bool Matches(string x, string y) {
-        switch (Condition) {
-            case AppearanceRuleCondition.Equal:
-                return x == y;
 
-            case AppearanceRuleCondition.NotEqual:
-                return x != y;
+    #region IAppearanceRule Members
 
-            default:
-                return false;
+    /// <inheritdoc/>
+    public AppearanceRuleCondition Condition { get; set; }
+
+    /// <inheritdoc/>
+    public IAppearanceRuleStyle Style { get; set; }
+
+    /// <inheritdoc/>
+    public string TextFormat { get; set; }
+
+    /// <inheritdoc/>
+    public string Value {
+        get {
+            return _stringValue;
+        }
+        set {
+            if (value is null) { return; }
+
+            _stringValue = value;
+
+            if (TryParseDecimal(value, out var parsedValue)) {
+                _decimalValue = parsedValue;
+            }
         }
     }
 
-    private bool Matches(decimal x, decimal? y) {
-        if (y.HasValue == false) { return false; }
-
-        switch (Condition) {
-            case AppearanceRuleCondition.Equal:
-                return x == y;
-
-            case AppearanceRuleCondition.NotEqual:
-                return x != y;
-
-            case AppearanceRuleCondition.LessThan:
-                return x < y;
-
-            case AppearanceRuleCondition.LessThanOrEqual:
-                return x <= y;
-
-            case AppearanceRuleCondition.MoreThan:
-                return x > y;
-
-            case AppearanceRuleCondition.MoreThanOrEqual:
-                return x >= y;
-
-            case AppearanceRuleCondition.BitSet:
-                return ((((int)(x) >> (int)(y)) & 1) == 1);
-
-            case AppearanceRuleCondition.BitNotSet:
-                return ((((int)(x) >> (int)(y)) & 1) == 0);
-
-            default:
-                return false;
-        }
-    }
+    #endregion
 }
