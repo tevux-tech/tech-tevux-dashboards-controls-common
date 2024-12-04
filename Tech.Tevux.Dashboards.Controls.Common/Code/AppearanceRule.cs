@@ -293,8 +293,8 @@ public class AppearanceRule : IAppearanceRule {
             return _stringValue;
         }
         set {
-            if (value is null) { return;}
-            
+            if (value is null) { return; }
+
             _stringValue = value;
 
             if (TryParseDecimal(value, out var parsedValue)) {
